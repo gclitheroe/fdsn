@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"github.com/GeoNet/fdsn/internal/platform/cfg"
-	"github.com/GeoNet/kit/metrics"
+	//"github.com/GeoNet/kit/metrics"
 	"github.com/golang/groupcache"
 	"github.com/gorilla/schema"
 	_ "github.com/lib/pq"
@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"time"
+	//"time"
 )
 
 var (
@@ -66,22 +66,22 @@ func main() {
 
 	recordCache = groupcache.NewGroup("record", cacheSize, groupcache.GetterFunc(recordGetter))
 
-	go func() {
-		ticker := time.Tick(time.Second * 30)
-
-		for {
-			select {
-			case <-ticker:
-				t := metrics.Start()
-				err := primeCache(time.Now().UTC().Add(time.Second * -40))
-				if err != nil {
-					log.Printf("priming cache %s", err.Error())
-				}
-				t.Track("primeCache")
-				log.Printf("record cache: %+v", recordCache.CacheStats(groupcache.MainCache))
-			}
-		}
-	}()
+	//go func() {
+	//	ticker := time.Tick(time.Second * 30)
+	//
+	//	for {
+	//		select {
+	//		case <-ticker:
+	//			t := metrics.Start()
+	//			err := primeCache(time.Now().UTC().Add(time.Second * -40))
+	//			if err != nil {
+	//				log.Printf("priming cache %s", err.Error())
+	//			}
+	//			t.Track("primeCache")
+	//			log.Printf("record cache: %+v", recordCache.CacheStats(groupcache.MainCache))
+	//		}
+	//	}
+	//}()
 
 	log.Println("starting server")
 	log.Fatal(http.ListenAndServe(":8080", mux))

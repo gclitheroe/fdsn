@@ -292,13 +292,15 @@ func GenRegex(input []string, emptyDash bool) ([]string, error) {
 		if emptyDash && s == "--" {
 			// "--" represents blank location which should be saved as 2 white spaces.
 			r = "^\\s{2}$"
+
 		} else {
 			// now escape all regex chars
 			s = regexp.QuoteMeta(s)
 			// Since * and ? has been escaped by QuoteMeta, we'll have to change them back
 			s = strings.Replace(s, "\\*", ".*", -1)
 			s = strings.Replace(s, "\\?", ".", -1)
-			r = "^" + s + "$"
+			//r = "^" + s + "$"
+			r = s
 		}
 
 		result = append(result, r)

@@ -63,19 +63,13 @@ func fdsnDataselectV1Handler(r *http.Request, w http.ResponseWriter) (int64, err
 
 	var keys []string
 	var rec []byte
-
-	// TODO - possibly limit request/response size and use a buffer for the response.  This
-	// would make http response codes to the client more accurate.
+	var err error
 
 	w.Header().Set("Content-Type", "application/vnd.fdsn.mseed")
 	var n int
 	var written int
 	for _, v := range params {
-		s, err := v.Regexp()
-		if err != nil {
-			return 0, err
-		}
-		keys, err = holdingsSearchNrt(s)
+		keys, err = holdingsSearchNrt(v)
 		if err != nil {
 			return 0, err
 		}
