@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package mseed;
+option go_package = "mseed_pb";
+
+// protoc --proto_path=protobuf/mseed/ --go_out=internal/mseed_pb protobuf/mseed/mseed.proto
+
+message Index {
+
+    string path = 1;
+
+    repeated Record records = 7;
+
+}
+
+message Record {
+
+    Timestamp start = 1;
+
+    Timestamp end = 2;
+
+    int64 number = 3;
+
+}
+
+// Timestamp for encoding time stamps.
+message Timestamp {
+    // Unix time in nanoseconds.
+    int64 unix_nano = 2;
+}
+
